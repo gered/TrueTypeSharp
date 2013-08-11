@@ -23,8 +23,6 @@
 using System;
 using System.Drawing;
 using System.IO;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
 
 namespace TrueTypeSharp.Demo
 {
@@ -47,7 +45,7 @@ namespace TrueTypeSharp.Demo
 
         static void Main(string[] args)
         {
-            var font = new TrueTypeFont(@"Anonymous/Anonymous Pro.ttf");
+            var font = new TrueTypeFont(new FileStream(@"Anonymous/Anonymous Pro.ttf", FileMode.Open));
 
             // Render some characters...
             for (char ch = 'A'; ch <= 'Z'; ch++)
@@ -65,38 +63,8 @@ namespace TrueTypeSharp.Demo
             var bitmap = font.BakeFontBitmap(pixelHeight, out characters, true);
 
             SaveBitmap(bitmap.Buffer, 0, 0, bitmap.Width, bitmap.Height, bitmap.Width, "BakeResult1.png");
-            
-            // Now, let's give serialization a go.
-            using (var file = File.OpenWrite("BakeResult2.temp"))
-            {
-                var bitmapSaver = new BinaryFormatter();
-                bitmapSaver.Serialize(file, bitmap);
-                bitmapSaver.Serialize(file, characters);
 
-                int ascent, descent, lineGap;
-                float scale = font.GetScaleForPixelHeight(pixelHeight);
-                font.GetFontVMetrics(out ascent, out descent, out lineGap);
-                bitmapSaver.Serialize(file, (float)ascent * scale);
-                bitmapSaver.Serialize(file, (float)descent * scale);
-                bitmapSaver.Serialize(file, (float)lineGap * scale);
-            }
-
-            using (var file = File.OpenRead("BakeResult2.temp"))
-            {
-                var bitmapLoader = new BinaryFormatter();
-                var bitmapAgain = (FontBitmap)bitmapLoader.Deserialize(file);
-                var charactersAgain = (BakedCharCollection)bitmapLoader.Deserialize(file);
-
-                SaveBitmap(bitmapAgain.Buffer, 0, 0, bitmapAgain.Width, bitmapAgain.Height, bitmap.Width, "BakeResult2.png");
-                for (char ch = 'A'; ch <= 'Z'; ch++)
-                {
-                    BakedChar bakedChar = charactersAgain[ch];
-                    if (bakedChar.IsEmpty) { continue; }
-                    SaveBitmap(bitmapAgain.Buffer,
-                        bakedChar.X0, bakedChar.Y0, bakedChar.X1, bakedChar.Y1,
-                        bitmapAgain.Stride, "SmallChar-" + ch.ToString() + ".png");
-                }
-            }
+			// TODO: implement serialization equivalent that is compatible with a Portable Class Library ...
         }
     }
 }

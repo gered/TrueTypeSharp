@@ -10,7 +10,6 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TrueTypeSharp.Demo</RootNamespace>
     <AssemblyName>TrueTypeSharp.Demo</AssemblyName>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -59,12 +58,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TrueTypeSharp\TrueTypeSharp.csproj">
-      <Project>{B722113F-1252-4BE1-9D43-6BC82B3E37D1}</Project>
-      <Name>TrueTypeSharp</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>
       <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
@@ -89,4 +82,10 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <ItemGroup>
+    <ProjectReference Include="..\TrueTypeSharp\TrueTypeSharp.csproj">
+      <Project>{1651CC69-D1D5-4770-9C93-45CB91579130}</Project>
+      <Name>TrueTypeSharp</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>
