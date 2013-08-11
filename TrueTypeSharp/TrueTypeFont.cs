@@ -32,20 +32,28 @@ namespace TrueTypeSharp
 
         public TrueTypeFont(byte[] data, int offset)
         {
-            CheckFontData(data, offset);
-
-            if (0 == stb_truetype.stbtt_InitFont(ref _info,
-                new FakePtr<byte>() { Array = data }, offset))
-            {
-                throw new BadImageFormatException("Couldn't load TrueType file.");
-            }
+			InitFontData(data, offset);
         }
 
-        public TrueTypeFont(string filename)
-            : this(File.ReadAllBytes(filename), 0)
-        {
+		public TrueTypeFont(Stream stream)
+		{
+			using (var memoryStream = new MemoryStream())
+			{
+				stream.CopyTo(memoryStream);
+				InitFontData(memoryStream.ToArray(), 0);
+			}
+		}
 
-        }
+		private void InitFontData(byte[] data, int offset)
+		{
+			CheckFontData(data, offset);
+
+			if (0 == stb_truetype.stbtt_InitFont(ref _info,
+			                                     new FakePtr<byte>() { Array = data }, offset))
+			{
+				throw new BadImageFormatException("Couldn't load TrueType file.");
+			}
+		}
 
         static void CheckFontData(byte[] data, int offset)
         {

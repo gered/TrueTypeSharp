@@ -24,7 +24,6 @@ using System;
 
 namespace TrueTypeSharp
 {
-    [Serializable]
     public struct ContourPoint
     {
         public float X, Y;

@@ -24,7 +24,6 @@ using System;
 
 namespace TrueTypeSharp
 {
-    [Serializable]
     public struct BakedQuad
     {
         public static BakedQuad Empty

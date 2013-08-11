@@ -22,12 +22,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 
 namespace TrueTypeSharp
 {
-    [Serializable]
-    public class BakedCharCollection : ISerializable
+    public class BakedCharCollection
     {
         Dictionary<char, BakedChar> _characters;
         int _bakeWidth, _bakeHeight;
@@ -49,13 +47,6 @@ namespace TrueTypeSharp
                 dictionary[codepoint] = character;
             }
             Create(dictionary, bakeWidth, bakeHeight);
-        }
-
-        protected BakedCharCollection(SerializationInfo info, StreamingContext context)
-        {
-            Create((Dictionary<char, BakedChar>)
-                info.GetValue("Characters", typeof(Dictionary<char, BakedChar>)),
-                info.GetInt32("BakeWidth"), info.GetInt32("BakeHeight"));
         }
 
         void Create(Dictionary<char, BakedChar> characters, int bakeWidth, int bakeHeight)
@@ -107,13 +98,6 @@ namespace TrueTypeSharp
 
                 yPosition += lineGap - lineDescender;
             }
-        }
-
-        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue("Characters", Characters);
-            info.AddValue("BakeWidth", BakeWidth);
-            info.AddValue("BakeHeight", BakeHeight);
         }
 
         public BakedQuad GetBakedQuad(char character,

@@ -21,12 +21,10 @@
 #endregion
 
 using System;
-using System.Runtime.Serialization;
 
 namespace TrueTypeSharp
 {
-    [Serializable]
-    public struct FontBitmap : ISerializable
+    public struct FontBitmap
     {
         public delegate T PixelConversionFunc<T>(byte opacity);
 
@@ -40,28 +38,6 @@ namespace TrueTypeSharp
 
             Buffer = new byte[width * height];
             Stride = Width = width; Height = height;
-        }
-
-        FontBitmap(SerializationInfo info, StreamingContext context) : this()
-        {
-            Buffer = (byte[])info.GetValue("Buffer", typeof(byte[]));
-            BufferOffset = info.GetInt32("BufferOffset");
-            XOffset = info.GetInt32("XOffset");
-            YOffset = info.GetInt32("YOffset");
-            Width = info.GetInt32("Width");
-            Height = info.GetInt32("Height");
-            Stride = info.GetInt32("Stride");
-        }
-
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            info.AddValue("Buffer", Buffer);
-            info.AddValue("BufferOffset", BufferOffset);
-            info.AddValue("XOffset", XOffset);
-            info.AddValue("YOffset", YOffset);
-            info.AddValue("Width", Width);
-            info.AddValue("Height", Height);
-            info.AddValue("Stride", Stride);
         }
 
         public FontBitmap GetResizedBitmap(int width, int height)

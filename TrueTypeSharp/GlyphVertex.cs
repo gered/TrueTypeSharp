@@ -24,7 +24,6 @@ using System;
 
 namespace TrueTypeSharp
 {
-    [Serializable]
     public struct GlyphVertex
     {
         public short X, Y, CX, CY;
